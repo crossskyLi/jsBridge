@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script src="node_modules/webviewbridgeclient/lib/index.js"></script>
+<script>
+    //DOM树加载
+    function documentReady(fn) {
+        if (document.addEventListener) document.addEventListener('DOMContentLoaded', fn, false);
+        else {
+            document.attachEvent('onreadystatechange', function () {
+                //IE兼容
+                if (document.readyState === 'complete') {
+                    fn && fn();
+                }
+            });
+        }
+    }
+
+    //设置页面初始度量值
+    documentReady(function () {
+        getBridge().then((bridge) => {
+            bridge.registerHandler('alertSomething',(data,responseCallback)=>{
+                console.log('消息',data);
+                responseCallback(data)
+            })
+        })
+    })
+</script>
