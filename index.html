@@ -26,9 +26,14 @@
     //设置页面初始度量值
     documentReady(function () {
         getBridge().then((bridge) => {
-            bridge.registerHandler('alertSomething',(data,responseCallback)=>{
+            // js 被原生调用
+            bridge.registerHandler('nativeCallJs',(data,responseCallback)=>{
                 console.log('消息',data);
-                responseCallback(data)
+                responseCallback(data);
+            });
+            // js调用原生
+            bridge.callHandler('jsCallNative',{'key':'value'}).then(responseData=>{
+                console.log('js received Native massage',responseData)
             })
         })
     })
